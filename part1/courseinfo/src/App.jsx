@@ -1,44 +1,55 @@
-const Header =({course}) => <h1>{course}</h1>;
+import { useState } from 'react'
 
-const Part =({name, exercises}) => (
-  <p>{name}: {exercises}</p>
-);
-
-const Content =({parts}) => (
-  <div>
-    {parts.map((part, index) => (
-      <Part key ={index} name={part.name} exercises={part.exercises} />
-    ))}
-  </div>
+const Button =({ handleClick, text}) => (
+  <button onClick ={handleClick}>{text}</button>
 )
-const Total =({parts}) => {
-  const total = parts.reduce((sum, part) => sum+part.exercises, 0)
-  return <p>Total: {total} exercises</p>
+
+const State = ({text, value}) => (
+  <tr>
+    <td>{text}</td>
+    <td>{value}</td>
+  </tr>
+)
+
+const Statistics =({good, neutral, bad}) => {
+  const total = good + neutral + bad;
+  const average = total ? (good-bad)/total :0
+  const positive = total? (good/total)*100 :0
+
+  if (total === 0) {
+    return <p>No feedback given</p>
+  }
+
+  return (
+    <table>
+      <tbody>
+        <State text="good" value ={good} />
+        <State text="neutral" value ={neutral} />
+        <State text="bad" value ={bad} />
+        <State text="all" value ={total} />
+        <State text="average" value ={average} />
+        <State text="positive" value ={positive} />
+      </tbody>
+    </table>
+  )
 }
 const App =() => {
-  const course ='Half Stack application development'
-  const parts =[{
-    name: 'Fundamentals of React',
-    exercises: 10
-  },
-  {
-    name: 'Using props to pass data',
-    exercises: 7
-  },
-  {
-    name: 'State of a componentt',
-    exercises: 7
-  }
-  ];
+  const [good, setGood] = useState(0)
+  const [neutral, setNeutral] = useState(0)
+  const [bad, setBad] = useState(0)
+
   return (
     <div>
-    <Header course ={course}/>
-    <Content parts ={parts}/>
-    <Total parts ={parts}/>
+      <h1>Give Feedback</h1>
+      <Button handleClick={() => setGood(good +1)} text="good" />
+      <Button handleClick={() => setNeutral(neutral +1)} text="neutral" />
+      <Button handleClick={() => setBad(bad +1)} text="bad" />
+
+      <h2>Statistics</h2>
+      <Statistics good={good} neutral={neutral} bad={bad} />
+
     </div>
   )
-
 }
-
 
 export default App
