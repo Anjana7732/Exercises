@@ -1,74 +1,69 @@
+import { useState } from 'react'
 
-
-
-const Course = ({course}) => {
-  const totalExercises = course.parts.reduce((sum,part) => sum+part.exercises,0)
-  return (
-    <>
-      <h2>{course.name}</h2>
-      {course.parts.map(part =>(
-        <p key ={part.id}>{part.name} : {part.exercises}</p>
-        
-      ))}
-      <h3>Total of {totalExercises} exercises</h3>
-    </>
-  )
-}
-const App=()=> {
-  console.log('app');
-
-  const course =[
+const App =() =>{
+  const [persons, setPersons] =useState([
     {
-    name: 'Half Stack application development',
-    id:1,
-    parts:[
-      {
-        name: 'Fundamentals of React',
-        exercises:10,
-        id:1
-      },
-      {
-        name: 'Using props to pass data',
-        exercises: 7,
-        id:3
-      },
-      {
-        name: 'State of a component',
-        exercises: 14,
-        id:3
-      },
-      {
-        name: 'Redux',
-        exercises: 11,
-        id: 4
-      }
-    ]
-  },
-  {
-    name: 'Node.js',
-    id:2,
-    parts: [
-      {
-        name: 'Routing',
-        exercises: 3,
-        id:1
-      },
-      {
-        name: 'Middlewares',
-        exercises: 7,
-        id: 2
-      }
-    ]
+      name: 'Arto Hellas',
+      number: '39-44-5323523'
+    }
+  ])
+  const [newName, setNewName] = useState('')
+  const [newNum, setNewNum] =useState('')
+  const [filter, setFilter] = useState('')
+  const handleClick =(e) => {
+    e.preventDefault();
+    const trimmedName = newName.trim();
+    const trimmedNumber = newNum.trim();
+    if(trimmedName === '' || trimmedNumber==='') return ;
+
+    if(persons.some(person => person.name === trimmedName)){
+      alert(`${trimmedName} is already added to phonebook` )
+      return;
+    }
+
+    const newPerson ={name: trimmedName, number: trimmedNumber}
+    setPersons([...persons, newPerson])
+    setNewName('')
+    setNewNum('')
   }
-  ]
+  // const filteredPersons =persons.filter(person =>
+  //   person.name.toLowerCase().includes(filter.toLowerCase())
+  // );
   return (
     <div>
-      <h1>Web development curriculum</h1>
-      {course.map(c =>(
-        <Course key ={c.id} course={c} />
-      ))}
+      <h2>Phonebook</h2>
+      <form>
+        <div>
+          Filter shown with: 
+          <input placeholder='search Name'
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}/>
+        </div>
+        <h2>Add new contacts</h2>
+        <div>
+          Name : <input placeholder='Add a Name'
+          value={newName}
+          onChange = {(e) => {setNewName(e.target.value)}}/>
+        </div>
+        <div>
+          Number : <input placeholder='Add number'
+          value={newNum}
+          onChange = {(e) => {setNewNum(e.target.value)}}/>
+        </div>
+        <div>
+          <button onClick={handleClick} type ="submit">add</button>
+        </div>
+      </form>
+      <h2>Numbers</h2>
+      {persons
+      .filter(person =>
+        person.name.toLowerCase().includes(filter.toLowerCase()))
+      .map((person,index) =>
+      <p key ={index} >{person.name} {person.number}</p> 
+      
+      )}
+      
     </div>
   )
 }
-
 export default App
