@@ -50,7 +50,18 @@ const App = () => {
         setNewNum("");
         showNotification(`Added ${name}`, "success");
       })
-      .catch(() => showNotification("Error adding person", "error"));
+      .catch((error) => {showNotification(error.response.data.error, "error");
+    });
+
+    axios
+  .put(`${baseUrl}/${existing.id}`, { name, number })
+  .then((res) => {
+    setPersons(persons.map((p) => (p.id === existing.id ? res.data : p)));
+    showNotification(`Updated ${name}'s number`, "success");
+  })
+  .catch((error) => {
+    showNotification(error.response.data.error, "error");
+  });
   };
 
   const handleDel = (id, name) => {
