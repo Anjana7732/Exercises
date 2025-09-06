@@ -14,15 +14,14 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
-// Connect to MongoDB and start server
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err.message));
 
-// -------------------- ROUTES -------------------- //
 
-// Get all persons
+
+
 app.get("/api/persons", async (req, res, next) => {
   try {
     const people = await Person.find({});
@@ -32,7 +31,6 @@ app.get("/api/persons", async (req, res, next) => {
   }
 });
 
-// Get single person
 app.get("/api/persons/:id", async (req, res, next) => {
   try {
     const person = await Person.findById(req.params.id);
@@ -43,7 +41,6 @@ app.get("/api/persons/:id", async (req, res, next) => {
   }
 });
 
-// Info route
 app.get("/info", async (req, res, next) => {
   try {
     const count = await Person.countDocuments({});
@@ -53,7 +50,6 @@ app.get("/info", async (req, res, next) => {
   }
 });
 
-// Add new person
 app.post("/api/persons", async (req, res, next) => {
   try {
     const { name, number } = req.body;
@@ -65,7 +61,6 @@ app.post("/api/persons", async (req, res, next) => {
   }
 });
 
-// Update person
 app.put("/api/persons/:id", async (req, res, next) => {
   try {
     const { name, number } = req.body;
@@ -81,7 +76,6 @@ app.put("/api/persons/:id", async (req, res, next) => {
   }
 });
 
-// Delete person
 app.delete("/api/persons/:id", async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -97,8 +91,6 @@ app.delete("/api/persons/:id", async (req, res, next) => {
 });
 
 
-// -------------------- ERROR HANDLING -------------------- //
-
 app.use((err, req, res, next) => {
   console.error("Error caught by middleware:", err.message, err.stack);
   if (err.name === "CastError") return res.status(400).json({ error: "malformatted id" });
@@ -107,7 +99,6 @@ app.use((err, req, res, next) => {
 });
 
 
-// -------------------- START SERVER -------------------- //
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
