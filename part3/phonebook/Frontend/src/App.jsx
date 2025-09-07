@@ -3,7 +3,7 @@ import axios from "axios";
 import Notification from "./Notification"; 
 import "./index.css";
 
-const baseUrl = "https://phonebook-new-backend.onrender.com";
+const baseUrl = "https://render-phonebook-fm34.onrender.com/";
 
 const App = () => {
   const [persons, setPersons] = useState([]);

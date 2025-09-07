@@ -12,7 +12,7 @@ const personSchema = new mongoose.Schema({
     minlength: [8, "Number must be atleast 8 characters long"],
     validate: {
       validator: function (v) {
-        // Must match XX-XXXXX... or XXX-XXXXX...
+        
         return /^\d{2,3}-\d+$/.test(v);
       },
       message: (props) =>
