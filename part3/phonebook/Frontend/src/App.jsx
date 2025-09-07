@@ -18,7 +18,6 @@ const App = () => {
 
   const showNotification = (message, type = "success") => {
     setNotification({ message, type });
-    setTimeout(() => setNotification({ message: null, type: "" }), 5000);
   };
 
   const handleClick = (e) => {
