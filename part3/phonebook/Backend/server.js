@@ -3,13 +3,14 @@ import mongoose from "mongoose";
 import cors from "cors";
 import morgan from "morgan";
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 import Person from "./models/person.js";
 
 dotenv.config();
 
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
@@ -17,10 +18,11 @@ app.use(morgan("dev"));
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("MongoDB connection error:", err.message));
+  .catch(err => console.error("MongoDB connection error:", err.message));
 
-
-
+app.get("/", (req, res) => {
+  res.send("Backend server running !!🥳");
+});
 
 app.get("/api/persons", async (req, res, next) => {
   try {
@@ -90,14 +92,24 @@ app.delete("/api/persons/:id", async (req, res, next) => {
   }
 });
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "dist")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "dist", "index.html"));
+  });
+}
+
 
 app.use((err, req, res, next) => {
-  console.error("Error caught by middleware:", err.message, err.stack);
+  console.error("Error caught by middleware:", err.message);
   if (err.name === "CastError") return res.status(400).json({ error: "malformatted id" });
   if (err.name === "ValidationError") return res.status(400).json({ error: err.message });
   res.status(500).json({ error: "Something went wrong" });
 });
-
 
 
 const PORT = process.env.PORT || 3001;
