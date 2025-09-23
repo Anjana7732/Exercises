@@ -1,0 +1,16 @@
+P http://localhost:3003/api/blogs
+
+Content-Type: application/json
+
+# {
+#     "title": "Second blog",
+#     "author": "Malice",
+#     "url": "http://exapmle2.com",
+#     "likes": 3
+# }
+
+{
+  "username": "anjana",
+  "name": "Anjana Shah",
+  "password": "mypassword"
+}

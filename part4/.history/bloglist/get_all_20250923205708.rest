@@ -1,0 +1,7 @@
+G http://localhost:3003/api/login
+# Content-Type: application/json
+
+# {
+#   "username": "alice",
+#   "password": "mypassword"
+# }

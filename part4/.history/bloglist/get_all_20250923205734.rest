@@ -1,0 +1,16 @@
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+  "username": "alice",
+  "password": "mypassword"
+}
+PUT http://localhost:3003/api/blogs/<blog_id>
+Content-Type: application/json
+
+{
+  "title": "Updated Blog",
+  "author": "Alice",
+  "url": "http://alice.com/blog",
+  "likes": 15
+}
