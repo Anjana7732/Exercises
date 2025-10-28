@@ -1,0 +1,22 @@
+.notification {
+  margin-bottom: 10px;
+  padding: 10px;
+  font-style: italic;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+}
+
+/* Success (green) */
+.notification.success {
+  background: #e6f4ea;   /* light green */
+  border-color: #4caf50;
+  color: #256029;        /* darker green text */
+}
+
+/* Error (red) */
+.notification.error {
+  background: #fdecea;   /* light red */
+  border-color: #f44336;
+  color: #b71c1c;        /* darker red text */
+}

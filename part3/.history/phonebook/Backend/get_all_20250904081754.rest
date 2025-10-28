@@ -1,0 +1,8 @@
+POS http://localhost:3001/api/persons
+Content-Type: application/json
+
+
+{
+  "name": "Anana Doe",
+  "number": "220-456-789"
+}

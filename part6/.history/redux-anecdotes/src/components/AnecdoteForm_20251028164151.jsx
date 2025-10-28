@@ -1,0 +1,31 @@
+import { useRef } from 'react'
+import { useDispatch } from 'react-redux'
+import { createAnecdote } from '../reducers/anecdoteReducer'
+
+const AnecdoteForm = () => {
+  const dispatch = useDispatch()
+  const inputRef = useRef(null)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const content = inputRef.current?.value?.trim()
+    if (!content) return
+    dispatch(createAnecdote(content))
+    inputRef.current.value = ''
+  }
+
+  return (
+    <div>
+      <h2>create new</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <input ref={inputRef} />
+        </div>
+        <button>create</button>
+      </form>
+    </div>
+  )
+}
+
+
+export default AnecdoteForm

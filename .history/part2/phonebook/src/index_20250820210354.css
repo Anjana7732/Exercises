@@ -1,0 +1,28 @@
+/* .error{
+    color: red  ;
+    font-style: italic;
+    background: lightgray;
+    font-size: 20px;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+} */
+.notification {
+  margin-bottom: 10px;
+  padding: 1rem;
+  background: lightgray;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.notification.success {
+  backgroun-color: #4caf50; /* green */
+  color: white;
+}
+
+.notification.error {
+   /* red */
+  color: red;
+}
