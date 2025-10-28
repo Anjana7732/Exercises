@@ -12,11 +12,7 @@ const AnecdoteForm = () => {
     const content = inputRef.current?.value?.trim()
     if (!content) return
     dispatch(createAnecdote(content))
-    dispatch(setNotification(`You created '${content}'`))
     inputRef.current.value = ''
-    setTimeout(() => {
-      dispatch(clearNotification())
-    }, 5000)
   }
 
   return (

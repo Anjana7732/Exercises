@@ -1,0 +1,26 @@
+import { createSlice } from '@reduxjs/toolkit'
+
+const initialState = [
+  {
+    id: 1,
+    content: 'If it hurts, do it more often',
+    votes: 0
+  },
+  {
+    id: 2,
+    content: 'Adding manpower to a late software project makes it later!',
+    votes: 0
+  },
+  {
+    id: 3,
+    content: 'The first 90 percent of the code accounts for the first 90 percent of the development time...',
+    votes: 0
+  }
+]
+
+const generateId = () => Math.floor(Math.random() * 100000)
+
+const anecdoteSlice = createSlice({
+  name: 'anecdotes',
+  initialState,
+  reducers: {

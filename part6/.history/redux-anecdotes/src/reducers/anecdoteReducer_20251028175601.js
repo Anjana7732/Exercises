@@ -16,7 +16,7 @@ const initialAnecdotes = [
   }
 ]
 
-const generateId = () => Math.floor(Math.random() * 100000)
+const generateId = () => Math.random().toString(36).slice(2, 9)
 
 export const voteAnecdote = (id) => {
   return {
