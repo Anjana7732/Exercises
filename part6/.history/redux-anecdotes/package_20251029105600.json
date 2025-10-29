@@ -9,7 +9,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "server": "json-server --port 3001 --watch backend/db.json"
+    "server": "json-server"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.9.2",

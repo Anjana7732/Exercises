@@ -60,5 +60,6 @@ const anecdoteSlice = createSlice({
       })
   }
 })
-
+  
+export const {} = anecdoteSlice.actions
 export default anecdoteSlice.reducer

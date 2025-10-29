@@ -25,25 +25,18 @@ export const createAnecdote = createAsyncThunk(
   }
 )
 
-export const voteAnecdote = createAsyncThunk(
-  'anecdotes/vote',
-  async (anecdote) => {
-    const updatedAnecdote = { ...anecdote, votes: anecdote.votes + 1 }
-    const response = await fetch(`${baseUrl}/${anecdote.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updatedAnecdote)
-    })
-    return await response.json()
-  }
-)
-
 const anecdoteSlice = createSlice({
   name: 'anecdotes',
   initialState: [],
-  reducers: {},
+  reducers: {
+    voteAnecdote: (state, action) => {
+      const id = action.payload
+      const anecdoteToChange = state.find(a => a.id === id)
+      if (anecdoteToChange) {
+        anecdoteToChange.votes += 1
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchAnecdotes.fulfilled, (state, action) => {
@@ -52,13 +45,8 @@ const anecdoteSlice = createSlice({
       .addCase(createAnecdote.fulfilled, (state, action) => {
         state.push(action.payload)
       })
-      .addCase(voteAnecdote.fulfilled, (state, action) => {
-        const updatedAnecdote = action.payload
-        return state.map(anecdote => 
-          anecdote.id === updatedAnecdote.id ? updatedAnecdote : anecdote
-        )
-      })
   }
 })
-
+  
+export const { voteAnecdote } = anecdoteSlice.actions
 export default anecdoteSlice.reducer
