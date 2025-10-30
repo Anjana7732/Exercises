@@ -1,10 +1,11 @@
 import { useSelector } from 'react-redux'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { getAnecdotes, updateAnecdote } from '../services/anecdotes'
-import { useNotificationDispatch, setNotificationWithTimeout } from '../NotificationContext'
+import { setNotificationWithTimeout } from '../reducers/notificationSlice'
+import { useDispatch } from 'react-redux'
 
 const AnecdoteList = () => {
-  const notificationDispatch = useNotificationDispatch()
+  const dispatch = useDispatch()
   const filter = useSelector(state => state.filter || '')
   const queryClient = useQueryClient()
 
@@ -16,12 +17,9 @@ const AnecdoteList = () => {
 
   const voteMutation = useMutation({
     mutationFn: updateAnecdote,
-    onSuccess: async (updatedAnecdote) => {
-      await queryClient.invalidateQueries({ queryKey: ['anecdotes'] })
-      setNotificationWithTimeout(notificationDispatch, `anecdote '${updatedAnecdote.content}' voted`, 5)
-    },
-    onError: (error) => {
-      setNotificationWithTimeout(notificationDispatch, `Error: ${error.message}`, 5)
+    onSuccess: (updatedAnecdote) => {
+      queryClient.invalidateQueries({ queryKey: ['anecdotes'] })
+      dispatch(setNotificationWithTimeout(`you voted '${updatedAnecdote.content}'`, 10))
     }
   })
 

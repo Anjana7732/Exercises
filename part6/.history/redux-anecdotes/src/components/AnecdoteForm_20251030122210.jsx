@@ -19,6 +19,7 @@ const AnecdoteForm = () => {
       console.log('Mutation error caught:', error)
       console.log('Error type:', typeof error)
       console.log('Error message:', error?.message)
+      
       const errorMessage = error?.message || error?.toString() || 'Failed to create anecdote'
       console.log('Setting notification with message:', errorMessage)
       console.log('Notification dispatch:', notificationDispatch)

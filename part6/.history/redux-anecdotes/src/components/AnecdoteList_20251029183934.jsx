@@ -16,8 +16,8 @@ const AnecdoteList = () => {
 
   const voteMutation = useMutation({
     mutationFn: updateAnecdote,
-    onSuccess: async (updatedAnecdote) => {
-      await queryClient.invalidateQueries({ queryKey: ['anecdotes'] })
+    onSuccess: (updatedAnecdote) => {
+      queryClient.invalidateQueries({ queryKey: ['anecdotes'] })
       setNotificationWithTimeout(notificationDispatch, `anecdote '${updatedAnecdote.content}' voted`, 5)
     },
     onError: (error) => {
@@ -46,7 +46,13 @@ const AnecdoteList = () => {
   const sortedAnecdotes = [...filteredAnecdotes].sort((a, b) => b.votes - a.votes)
 
   const handleVote = (anecdote) => {
-    voteMutation.mutate(anecdote)
+    console.log('Voting on:', anecdote)
+    voteMutation.mutate(anecdote, {
+      onError: (error) => {
+        console.error('Vote error:', error)
+        setNotificationWithTimeout(notificationDispatch, `Error: ${error.message}`, 5)
+      }
+    })
   }
 
   return (

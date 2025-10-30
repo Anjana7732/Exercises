@@ -12,17 +12,18 @@ const AnecdoteForm = () => {
     mutationFn: createAnecdoteService,
     onSuccess: (newAnecdote) => {
       queryClient.invalidateQueries({ queryKey: ['anecdotes'] })
-      setNotificationWithTimeout(notificationDispatch, `new anecdote '${newAnecdote.content}'`, 5)
+      setNotificationWithTimeout(notificationDispatch, `new anecdote '${newAnecdote.content}'`, 50)
       inputRef.current.value = ''
     },
     onError: (error) => {
       console.log('Mutation error caught:', error)
       console.log('Error type:', typeof error)
       console.log('Error message:', error?.message)
+      // Extract error message - React Query passes Error object
       const errorMessage = error?.message || error?.toString() || 'Failed to create anecdote'
       console.log('Setting notification with message:', errorMessage)
       console.log('Notification dispatch:', notificationDispatch)
-      setNotificationWithTimeout(notificationDispatch, errorMessage, 5)
+      setNotificationWithTimeout(notificationDispatch, errorMessage, 500)
       console.log('Notification set')
     }
   })
@@ -31,14 +32,6 @@ const AnecdoteForm = () => {
     e.preventDefault()
     const content = inputRef.current?.value?.trim()
     if (!content) return
-    if (content.length < 5) {
-      setNotificationWithTimeout(
-        notificationDispatch,
-        'too short anecdote, must have length 5 or more',
-        5
-      )
-      return
-    }
     createMutation.mutate(content)
   }
 
