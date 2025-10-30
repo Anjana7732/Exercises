@@ -28,6 +28,8 @@ const App = () => {
 
   const [notification, setNotification] = useState('')
   const navigate = useNavigate()
+
+  // Add new anec
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
     setAnecdotes(anecdotes.concat(anecdote))

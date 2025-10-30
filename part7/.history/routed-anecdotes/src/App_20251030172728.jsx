@@ -28,6 +28,8 @@ const App = () => {
 
   const [notification, setNotification] = useState('')
   const navigate = useNavigate()
+
+  // Add new anecdote and show notification
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
     setAnecdotes(anecdotes.concat(anecdote))
@@ -38,6 +40,7 @@ const App = () => {
     navigate('/') 
   }
 
+  // Find a specific anecdote using React Router’s matc
   const match = useMatch('/anecdotes/:id')
   const anecdote = match
     ? anecdotes.find(a => a.id === Number(match.params.id))
