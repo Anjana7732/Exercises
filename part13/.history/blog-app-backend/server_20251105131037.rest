@@ -1,0 +1,58 @@
+### 
+GET http://localhost:3001/api/blogs
+
+###
+
+# GET a blog by id
+GET    http://localhost:3001/api/blogs/7
+
+###
+
+# POST a new blog
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+
+{
+    "author": "Anjana Leot",
+    "url": "https://www.myexample.com",
+    "title": "Test Blog2",
+    "likes": 10,
+    "id": 1
+}
+
+###
+
+# DELETE a blog by id
+DELETE http://localhost:3001/api/blogs/6
+
+###
+
+# POST a new user
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "username": "john@doe.com",
+    "password": "secret"
+}
+
+###
+
+# GET all users
+GET http://localhost:3001/api/users
+
+###
+
+# login
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+    "username": "john@doe.com",
+    "password": "secret"
+}
+
+###
+
+# logout

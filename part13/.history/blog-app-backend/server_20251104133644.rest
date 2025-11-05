@@ -1,0 +1,14 @@
+### 
+GET http://localhost:3000/api/blogs
+
+###
+
+# GET a blog by id
+GET http://localhost:3000/api/blogs/1
+
+###
+
+# POST a new blog
+POST http://localhost:3000/api/blogs
+Content-Type: application/json
+
