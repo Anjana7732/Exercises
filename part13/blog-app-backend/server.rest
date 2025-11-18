@@ -22,7 +22,8 @@ Content-Type: application/json
 ###
 
 # DELETE a blog by id
-DELETE http://localhost:3001/api/blogs/6
+DELETE http://localhost:3001/api/blogs/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG5AZG9lLmNvbSIsImlkIjoxLCJpYXQiOjE3NjMzNzUxNzYsImV4cCI6MTc2MzM3ODc3Nn0.OMHYK-QLEp6bX4ftb3t4PekVu2M4z13QvHXFpD8BvTI
 
 ###
 
@@ -60,12 +61,109 @@ Content-Type: application/json
 
 # create a new blog
 POST http://localhost:3001/api/blogs
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG5AZG9lLmNvbSIsImlkIjoxLCJpYXQiOjE3NjIzNDQyMjYsImV4cCI6MTc2MjM0NzgyNn0.LgduzzMmguQ1H2E0aWvr2nTwDvAqzvr-tMTby4TtQ8w
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG5AZG9lLmNvbSIsImlkIjoxLCJpYXQiOjE3NjMzNzUxNzYsImV4cCI6MTc2MzM3ODc3Nn0.OMHYK-QLEp6bX4ftb3t4PekVu2M4z13QvHXFpD8BvTI
 Content-Type: application/json
 
 {
-  "title": "Learning Node.js",
-  "author": "Jami Kousa",
+  "author": "Michael Chan",
+  "title": "React Patterns",
+  "url": "https://reactpatterns.com",
+  "likes": 5
+}
+###
+
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+
+{
+  "author": "Michael Chan",
+  "title": "React Patterns",
+  "url": "https://reactpatterns.com",
+  "likes": 5
+}
+
+###
+# TESTING EXERCISE 13.18 - Year Field Validation
+
+# Test 1: Valid year (2023)
+POST http://localhost:3001/api/blogs
+Authorization: Bearer [YOUR_TOKEN_HERE]
+Content-Type: application/json
+
+{
+  "title": "Valid Year Blog",
+  "author": "Test Author",
   "url": "https://example.com",
-  "likes": 3
+  "likes": 3,
+  "year": 2023
+}
+
+###
+# Test 2: Invalid year - too old (1990)
+POST http://localhost:3001/api/blogs
+Authorization: Bearer [YOUR_TOKEN_HERE]
+Content-Type: application/json
+
+{
+  "title": "Invalid Year Blog",
+  "author": "Test Author",
+  "url": "https://example.com",
+  "year": 1990
+}
+
+###
+# Test 3: Invalid year - future (2030)
+POST http://localhost:3001/api/blogs
+Authorization: Bearer [YOUR_TOKEN_HERE]
+Content-Type: application/json
+
+{
+  "title": "Future Blog",
+  "author": "Test Author",
+  "url": "https://example.com",
+  "year": 2030
+}
+
+###
+# Test 4: Valid - minimum year (1991)
+POST http://localhost:3001/api/blogs
+Authorization: Bearer [YOUR_TOKEN_HERE]
+Content-Type: application/json
+
+{
+  "title": "Old Blog",
+  "author": "Test Author",
+  "url": "https://example.com",
+  "year": 1991
+}
+
+###
+# Test 5: Valid - no year (should work)
+POST http://localhost:3001/api/blogs
+Authorization: Bearer [YOUR_TOKEN_HERE]
+Content-Type: application/json
+
+{
+  "title": "No Year Blog",
+  "author": "Test Author",
+  "url": "https://example.com",
+  "likes": 5
+}
+
+###
+# Test 6: Update blog with valid year
+PUT http://localhost:3001/api/blogs/1
+Content-Type: application/json
+
+{
+  "year": 2022
+}
+
+###
+# Test 7: Update blog with invalid year
+PUT http://localhost:3001/api/blogs/1
+Content-Type: application/json
+
+{
+  "year": 1980
 }

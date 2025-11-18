@@ -23,6 +23,28 @@ const Blog = sequelize.define('blog', {
     type: DataTypes.INTEGER,
     defaultValue: 0
   },
+  year: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    validate: {
+      isValidYear(value) {
+        if (value !== null && value !== undefined) {
+          const currentYear = new Date().getFullYear()
+          // Check if value is an integer
+          const yearNum = Number(value)
+          if (!Number.isInteger(yearNum)) {
+            throw new Error('Year must be an integer')
+          }
+          if (yearNum < 1991) {
+            throw new Error('Year must be at least 1991')
+          }
+          if (yearNum > currentYear) {
+            throw new Error(`Year cannot be greater than ${currentYear}`)
+          }
+        }
+      }
+    }
+  },
   userId: {
     type: DataTypes.INTEGER,
     allowNull: true,
@@ -33,7 +55,8 @@ const Blog = sequelize.define('blog', {
   }
 }, {
   tableName: 'blogs',
-  timestamps: false
+  timestamps: true,
+  underscored: true
 })
 
 module.exports = Blog

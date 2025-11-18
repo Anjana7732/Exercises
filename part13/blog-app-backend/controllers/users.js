@@ -53,5 +53,70 @@ usersRouter.put('/:username', asyncHandler(async (request, response) => {
   response.json(userResponse)
 }))
 
+// GET /api/users/:id - Get single user with reading list (Exercises 13.20, 13.21, 13.23)
+usersRouter.get('/:id', asyncHandler(async (request, response) => {
+  const Blog = require('../models/blog')
+  const ReadingList = require('../models/readinglist')
+  const userId = parseInt(request.params.id)
+  const { read } = request.query
+
+  const user = await User.findByPk(userId, {
+    attributes: { exclude: ['passwordHash'] }
+  })
+
+  if (!user) {
+    return response.status(404).json({ error: 'user not found' })
+  }
+
+  // Build where clause for reading list filtering (Exercise 13.23)
+  const readingListWhere = {}
+  if (read !== undefined) {
+    readingListWhere.read = read === 'true'
+  }
+
+  // Get reading list with blogs (Exercises 13.20, 13.21)
+  const readings = await Blog.findAll({
+    include: [
+      {
+        model: ReadingList,
+        as: 'readinglists',
+        where: {
+          userId: userId,
+          ...readingListWhere
+        },
+        required: true,
+        attributes: ['id', 'read']
+      }
+    ],
+    attributes: ['id', 'url', 'title', 'author', 'likes', 'year']
+  })
+
+  // Format response according to exercise requirements (Exercise 13.21)
+  const formattedReadings = readings.map(blog => {
+    const blogData = blog.toJSON()
+    // The readinglists array should contain exactly one object
+    return {
+      id: blogData.id,
+      url: blogData.url,
+      title: blogData.title,
+      author: blogData.author,
+      likes: blogData.likes,
+      year: blogData.year,
+      readinglists: blogData.readinglists.map(rl => ({
+        read: rl.read,
+        id: rl.id
+      }))
+    }
+  })
+
+  const userResponse = {
+    name: user.name,
+    username: user.username,
+    readings: formattedReadings
+  }
+
+  response.json(userResponse)
+}))
+
 module.exports = usersRouter
 

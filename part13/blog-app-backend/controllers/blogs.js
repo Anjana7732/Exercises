@@ -40,6 +40,7 @@ blogsRouter.post('/', asyncHandler(async (request, response) => {
     author: body.author,
     url: body.url,
     likes: body.likes || 0,
+    year: body.year,
     userId: request.user.id 
   })
 
@@ -71,7 +72,7 @@ blogsRouter.get('/:id', asyncHandler(async (request, response) => {
 }))
 
 blogsRouter.put('/:id', asyncHandler(async (request, response) => {
-  const { likes } = request.body
+  const { likes, year } = request.body
 
   const blog = await Blog.findByPk(parseInt(request.params.id))
 
@@ -79,7 +80,13 @@ blogsRouter.put('/:id', asyncHandler(async (request, response) => {
     return response.status(404).json({ error: 'blog not found' })
   }
 
-  blog.likes = likes
+  if (likes !== undefined) {
+    blog.likes = likes
+  }
+  if (year !== undefined) {
+    blog.year = year
+  }
+  
   const updatedBlog = await blog.save()
 
   response.json(updatedBlog)
